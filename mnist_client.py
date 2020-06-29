@@ -27,6 +27,8 @@ Typical usage example:
 
 from __future__ import print_function
 
+from datetime import datetime
+
 import sys
 import threading
 
@@ -43,7 +45,7 @@ import mnist_input_data
 
 tf.compat.v1.app.flags.DEFINE_integer(
     'concurrency', 1, 'maximum number of concurrent inference requests')
-tf.compat.v1.app.flags.DEFINE_integer('num_tests', 100, 'Number of test images')
+tf.compat.v1.app.flags.DEFINE_integer('num_tests', 10000, 'Number of test images')
 tf.compat.v1.app.flags.DEFINE_string('server', '',
                                      'PredictionService host:port')
 tf.compat.v1.app.flags.DEFINE_string('work_dir', '/tmp', 'Working directory. ')
@@ -156,14 +158,15 @@ def do_inference(hostport, work_dir, concurrency, num_tests):
 
 
 def main(_):
-  if FLAGS.num_tests > 10000:
-    print('num_tests should not be greater than 10k')
-    return
   if not FLAGS.server:
     print('please specify server host:port')
     return
+  time1 = datetime.now()
   error_rate = do_inference(FLAGS.server, FLAGS.work_dir,
                             FLAGS.concurrency, FLAGS.num_tests)
+  time2 = datetime.now()
+  timePassed = time2 - time1
+  print('\nTime passed: %s%%' % timePassed)
   print('\nInference error rate: %s%%' % (error_rate * 100))
 
 
