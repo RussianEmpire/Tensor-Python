@@ -166,7 +166,7 @@ def main(_):
                             FLAGS.concurrency, FLAGS.num_tests)
   time2 = datetime.now()
   timePassed = time2 - time1
-  print('\nTime passed: %s%' % timePassed)
+  print('\nTime passed: %s' % timePassed)
   print('\nInference error rate: %s%%' % (error_rate * 100))
 
 
